@@ -157,12 +157,12 @@ Pour actualiser les poids, on se centre sur l'arrivée, et on actualise les case
 
 ![Labyrinthe Exemple - Actualisation des Poids](LabyrintheExempleActuPoids.png)
 
-Les coordonnées des différents points de chaque losange, correspond à 2 intervalles d'une fonction triangle de paramètre **a** correspondant à la taille du losange :
+Les coordonnées des différents points de chaque losange, correspond à 2 intervalles (un pour l'abscisse et un pour les ordonnées) d'une fonction triangle de paramètre **a** correspondant à la taille du losange (donc la distance de l'arrivée):
 
 ![Fonction Triangle Paramétrable](geogebra.png)
 
-Cependant, si on ne prend on considération que cette condition pour actualiser les poids, en présence de murs formant des couloirs, les cases ne s'actualiseront pas bien. 
-Pour cela, il faut aussi vérifier que la case soit actualisable, c'est-à-dire : qu'au moins une case voisine est été actualisée. Si ce n'est pas le cas, on passe et on continue avec la case suivante. Bien sûr, on répète l'opération jusqu'à ce que toutes les cases soient actualisées.
+Cependant, si on ne prend en considération que cette condition pour actualiser les poids, en présence de murs formant des couloirs, les cases ne s'actualiseront pas bien. 
+Pour cela, il faut aussi vérifier que la case soit actualisable, c'est-à-dire : qu'au moins une case voisine communicante (absence de mur entre les cases) est été actualisée. Si ce n'est pas le cas, on passe et on continue avec la case suivante. Pour ce qui est du calcul du nouveau poids d'une case, il correspond au plus petit poids parmis les cases voisines communicantes actualisées + 1. Bien sûr, on répète l'opération jusqu'à ce que toutes les cases soient actualisées.
 
 #### c) Exemple de résolution:
 
