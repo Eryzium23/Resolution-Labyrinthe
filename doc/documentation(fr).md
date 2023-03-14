@@ -5,7 +5,8 @@
 Avant de résoudre un labyrinthe il est nécessaire d'en générer un. Il a été trouvé pertinent de se limiter à un **labyrinthe parfait**. Cela se traduit par le fait que le chemin du labyrinthe passe par toutes ses cases, et que tous ses murs sont reliés entre eux.
 
 A noter que pour un labyrinthe de taille NxN, le nombre de murs est fixe et vaut : 4*N + (N-1)^2
-*Source : https://micromouseonline.com/2011/12/03/how-many-walls-do-you-need-for-a-square-maze/*
+
+(*source : https://micromouseonline.com/2011/12/03/how-many-walls-do-you-need-for-a-square-maze/*)
 
 L'algorithme retenu pour la génération de labyrinthe est "Hunt & Kill":
 1. On choisit une case
