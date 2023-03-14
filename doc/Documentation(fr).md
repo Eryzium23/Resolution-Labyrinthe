@@ -157,7 +157,7 @@ Pour actualiser les poids, on se centre sur l'arrivée, et on actualise les case
 
 ![Labyrinthe Exemple - Actualisation des Poids](LabyrintheExempleActuPoids.png)
 
-Les coordonnées des différents points de chaque losange, correspond à 2 intervalle d'une fonction triangle de paramètre **a** correspondant à la taille du losange :
+Les coordonnées des différents points de chaque losange, correspond à 2 intervalles d'une fonction triangle de paramètre **a** correspondant à la taille du losange :
 
 ![Fonction Triangle Paramétrable](geogebra.png)
 
