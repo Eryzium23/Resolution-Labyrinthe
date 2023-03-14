@@ -8,10 +8,10 @@ A noter que pour un labyrinthe de taille NxN, le nombre de murs est fixe et vaut
 *Source : https://micromouseonline.com/2011/12/03/how-many-walls-do-you-need-for-a-square-maze/*
 
 L'algorithme retenu pour la génération de labyrinthe est "Hunt & Kill":
-* 1. On choisit une case
-* 2. On "marche" aléatoirement, taillant un passage vers les cases voisines non parcourues, jusqu'à n'avoir plus que des voisins parcourus
-* 3. On entre dans le mode "chasse", où l'on scanne le labyrinthe jusqu'à trouver une case non visitée adjacente à une case parcourue.
-* 4. On répète les étapes 2 et 3 jusqu'à que le mode "chasse" scanne le labyrinthe entièrement sans trouver de cases non parcourues.
+1. On choisit une case
+2. On "marche" aléatoirement, taillant un passage vers les cases voisines non parcourues, jusqu'à n'avoir plus que des voisins parcourus
+3. On entre dans le mode "chasse", où l'on scanne le labyrinthe jusqu'à trouver une case non visitée adjacente à une case parcourue.
+4. On répète les étapes 2 et 3 jusqu'à que le mode "chasse" scanne le labyrinthe entièrement sans trouver de cases non parcourues.
 
 (*source : https://weblog.jamisbuck.org/2011/1/24/maze-generation-hunt-and-kill-algorithm*)
 
@@ -42,7 +42,7 @@ Ensuite, en fonction de la situation, on choisit une action:
 * Sinon, si ou peut tourner à gauche : *on tourne à gauche*
 * Sinon : *on fait demi-tour*
 
-#### b) Exemple :
+#### b) Exemple de résolution :
 
 
 ```
@@ -140,6 +140,7 @@ Fini
 ### 4) Poids
 
 #### a) Logique
+
 L'algorithme consiste à définir des poids pour chaque case du labyrinthe.
 Plus une case est loin de l'arrivée, plus son poids est élevé, on utilise la norme 1 pour calculer la distance :
 
@@ -149,7 +150,20 @@ Pour choisir l'action à entreprendre, on regarde les poids alentours (droite, h
 
 Ensuite, on actualise le tableau des poids grâce à la carte actuelle, et c'est là qu'est la difficulté de mise en place de l'algorithme : **l'actualisation des poids**.
 
-#### b) Exemple:
+#### b) Actualisation des poids
+
+Pour actualiser les poids, on se centre sur l'arrivée, et on actualise les cases les plus proches au plus éloignées (un peu comme des vagues). L'ensemble des points pour chaque distance d'actualisation forme un losange.
+
+![Labyrinthe Exemple - Actualisation des Poids](LabyrintheExempleActuPoids.png)
+
+Les coordonnées des différents points de chaque losange, correspond à 2 intervalle d'une fonction triangle de paramètre **a** correspondant à la taille du losange :
+
+![Fonction Triangle Paramétrable](geogebra.png)
+
+Cependant, si on ne prend on considération que cette condition pour actualiser les poids, en présence de murs formant des couloirs, les cases ne s'actualiseront pas bien. 
+Pour cela, il faut aussi vérifier que la case soit actualisable, c'est-à-dire : qu'au moins une case voisine est été actualisée. Si ce n'est pas le cas, on passe et on continue avec la case suivante. Bien sûr, on répète l'opération jusqu'à ce que toutes les cases soient actualisées.
+
+#### c) Exemple de résolution:
 
 ```
 Labyrinthe         Carte
