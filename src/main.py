@@ -5,6 +5,12 @@ from os import system
 
 
 def main():
+    
+    # Paramètres de créatio ns du labyrinthe
+    pil ="o"
+    murH = "-"
+    murV = "|"
+
     # Interactions utilisateurs pour initialiser les paramètres
     system('cls')
     print("Bienvenue dans le Simulateur de Résolution de Labyrinthe! \n ")
@@ -14,12 +20,6 @@ def main():
         affiche = True
     elif(affiche == 'non'):
         affiche = False
-    option = input("Mode de résolution : \n ¤ manuel \n ¤ droite \n ¤ aléatoire \n ¤ poids \n \n")
-
-    # Paramètres de créatio ns du labyrinthe
-    pil ="o"
-    murH = "-"
-    murV = "|"
 
     system('cls')
 
@@ -28,6 +28,10 @@ def main():
     carte = lb.labInit(dim,pil,murH,murV)
     lb.carteInit(carte)                                      # On initialise un labyrinthe avec que les murs extérieurs
     
+    option = input("Mode de résolution : \n ¤ manuel \n ¤ droite \n ¤ aléatoire \n ¤ poids \n \n")
+
+    system('cls')
+
     # On démarre la phase de déplacement
     run = True
     dir = 'X'
