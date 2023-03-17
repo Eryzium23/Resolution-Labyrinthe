@@ -14,6 +14,8 @@ def communication(action):
             print("J'avance boup bip!")
         case 'demitour':
             print("Je fais un 180° beep!")
+        case 'none':
+            print("Chômage technique boup boup!")
     sleep(0.3)
 
 

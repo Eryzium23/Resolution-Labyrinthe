@@ -376,46 +376,70 @@ def deplacementAlgo(action,lab,carte,dir,depart,pos,arrivee,pas):
     # Avancer
     if(action == 'avancer'):
         match dir:
-            case'→':                              # Orientation Est
+
+            # DROITE
+            case'→':
                 if(lab[y][x+2] == murV):
                     print("Mur rencontré")
                     sleep(0.2)
                 else:
-                    carte[y][x] = " "
-                    x+=4
-                    pos[1]+=1
-                    carte[y][x] = dir
-                    pas+=1   
-            case '←':                              # Orientation Ouest
+                    if(lab[y][x+4] == " " or lab[y][x+4] == "A" or lab[y][x+4] == "D"):
+                        carte[y][x] = " "
+                        x+=4
+                        pos[1]+=1
+                        carte[y][x] = dir
+                        pas+=1
+                    else:
+                        print("Robot droit devant!")
+                        sleep(0.2)
+            
+            # GAUCHE
+            case '←':
                 if(lab[y][x-2] == murV):
                     print("Mur rencontré")
                     sleep(0.2)
                 else:
-                    carte[y][x] = " "
-                    x-=4
-                    pos[1]-=1
-                    carte[y][x] = dir
-                    pas+=1 
-            case '↑':                              # Orientation Nord
+                    if(lab[y][x-4] == " " or lab[y][x-4] == "A" or lab[y][x-4] == "D"):
+                        carte[y][x] = " "
+                        x-=4
+                        pos[1]-=1
+                        carte[y][x] = dir
+                        pas+=1
+                    else:
+                        print("Robot droit devant!")
+                        sleep(0.2)
+
+            # HAUT
+            case '↑':
                 if(lab[y-1][x] == murH):
                     print("Mur rencontré")
                     sleep(0.2)
                 else:
-                    carte[y][x] = " "
-                    y-=2
-                    pos[0]-=1
-                    carte[y][x] = dir
-                    pas+=1 
-            case '↓':                              # Orientation Sud
+                    if(lab[y-2][x] == " " or lab[y-2][x] == "A" or lab[y-2][x] == "D"):
+                        carte[y][x] = " "
+                        y-=2
+                        pos[0]-=1
+                        carte[y][x] = dir
+                        pas+=1
+                    else:
+                        print("Robot droit devant!")
+                        sleep(0.2)
+
+            # BAS
+            case '↓':
                 if(lab[y+1][x] == murH):
                     print("Mur rencontré")
                     sleep(0.2)
                 else:
-                    carte[y][x] = " "
-                    y+=2
-                    pos[0]+=1
-                    carte[y][x] = dir
-                    pas+=1
+                    if(lab[y+2][x] == " " or lab[y+2][x] == "A" or lab[y+2][x] == "D"):
+                        carte[y][x] = " "
+                        y+=2
+                        pos[0]+=1
+                        carte[y][x] = dir
+                        pas+=1
+                    else:
+                        print("Robot droit devant!")
+                        sleep(0.2)
         
     # On efface, réaffiche les commandes, cartographie et affiche la carte
     
