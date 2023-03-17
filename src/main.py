@@ -3,7 +3,6 @@ import algos
 from time import sleep
 from os import system
 
-
 def main():
     
     system('cls')
