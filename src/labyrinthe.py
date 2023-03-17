@@ -93,14 +93,13 @@ def taillage(lab,dim,nbreRobot,affiche):
     y = random.randint(0,dim-1)
     x = random.randint(0,dim-1)
     depart = [y,x]
-
-    # "On parcours la case"
     parcours[y][x]=1
 
+    pause = 0.2
     if(affiche) :
         afficheTab(lab)
+        sleep(pause)
     count = 1
-    system('cls')
     while(count < dim**2):
 
         # Si on est coincé
@@ -121,7 +120,7 @@ def taillage(lab,dim,nbreRobot,affiche):
             dir = random.randint(1,4)
             match dir:
 
-                # Droite
+                # DROITE
                 case 1:
                     if (x+1 < dim) :                            # On vérifie que la case existe
                         if (parcours[y][x+1] == 0):                   # On vérifie que la case n'est pas encore parcouru
@@ -131,10 +130,10 @@ def taillage(lab,dim,nbreRobot,affiche):
                             if (affiche) :
                                 system('cls')
                                 afficheTab(lab)
-                                sleep(0.2)
+                                sleep(pause)
                             count+=1                            # On incrémente le nombre de case parcourues
                 
-                # Haut
+                # HAUT
                 case 2:
                     if (y-1 >= 0):
                         if(parcours[y-1][x] == 0):
@@ -146,10 +145,10 @@ def taillage(lab,dim,nbreRobot,affiche):
                             if (affiche) :
                                 system('cls')
                                 afficheTab(lab)
-                                sleep(0.2)
+                                sleep(pause)
                             count+=1
                 
-                # Gauche
+                # GAUCHE
                 case 3:
                     if (x-1 >= 0):
                         if (parcours[y][x-1] == 0):
@@ -159,10 +158,10 @@ def taillage(lab,dim,nbreRobot,affiche):
                             if (affiche) :
                                 system('cls')
                                 afficheTab(lab)
-                                sleep(0.2)
+                                sleep(pause)
                             count+=1
                 
-                # Bas
+                # BAS
                 case 4:
                     if (y+1 < dim):
                         if (parcours[y+1][x] == 0):
@@ -174,7 +173,7 @@ def taillage(lab,dim,nbreRobot,affiche):
                             if (affiche) :
                                 system('cls')
                                 afficheTab(lab)
-                                sleep(0.2)
+                                sleep(pause)
                             count+=1
     
     # On définit un départ et une arrivée au labyrinthe taillé
@@ -198,7 +197,7 @@ def taillage(lab,dim,nbreRobot,affiche):
 
     # On fait une pause d'1s pour l'affichage
     if(affiche):
-        sleep(1)
+        sleep(pause)
 
     # On renvoie le labyrinthe et la case de départ
     return [lab,depart,arrivee]  
@@ -316,6 +315,7 @@ def deplacement(lab,carte,dir,depart,pos,arrivee,pas):
 def deplacementAlgo(action,lab,carte,dir,depart,pos,arrivee,pas):
     
     texte = "D = Départ ; A = Arrivée ; X = position initiale"
+    pause = 0.3
     
     # Coordonnées du départ et arrivée du labyrinthe
     ya = 2*arrivee[0]+1
@@ -381,7 +381,7 @@ def deplacementAlgo(action,lab,carte,dir,depart,pos,arrivee,pas):
             case'→':
                 if(lab[y][x+2] == murV):
                     print("Mur rencontré")
-                    sleep(0.2)
+                    sleep(pause)
                 else:
                     if(lab[y][x+4] == " " or lab[y][x+4] == "A" or lab[y][x+4] == "D"):
                         carte[y][x] = " "
@@ -391,13 +391,13 @@ def deplacementAlgo(action,lab,carte,dir,depart,pos,arrivee,pas):
                         pas+=1
                     else:
                         print("Robot droit devant!")
-                        sleep(0.2)
+                        sleep(pause)
             
             # GAUCHE
             case '←':
                 if(lab[y][x-2] == murV):
                     print("Mur rencontré")
-                    sleep(0.2)
+                    sleep(pause)
                 else:
                     if(lab[y][x-4] == " " or lab[y][x-4] == "A" or lab[y][x-4] == "D"):
                         carte[y][x] = " "
@@ -407,13 +407,13 @@ def deplacementAlgo(action,lab,carte,dir,depart,pos,arrivee,pas):
                         pas+=1
                     else:
                         print("Robot droit devant!")
-                        sleep(0.2)
+                        sleep(pause)
 
             # HAUT
             case '↑':
                 if(lab[y-1][x] == murH):
                     print("Mur rencontré")
-                    sleep(0.2)
+                    sleep(pause)
                 else:
                     if(lab[y-2][x] == " " or lab[y-2][x] == "A" or lab[y-2][x] == "D"):
                         carte[y][x] = " "
@@ -423,13 +423,13 @@ def deplacementAlgo(action,lab,carte,dir,depart,pos,arrivee,pas):
                         pas+=1
                     else:
                         print("Robot droit devant!")
-                        sleep(0.2)
+                        sleep(pause)
 
             # BAS
             case '↓':
                 if(lab[y+1][x] == murH):
                     print("Mur rencontré")
-                    sleep(0.2)
+                    sleep(pause)
                 else:
                     if(lab[y+2][x] == " " or lab[y+2][x] == "A" or lab[y+2][x] == "D"):
                         carte[y][x] = " "
@@ -439,7 +439,7 @@ def deplacementAlgo(action,lab,carte,dir,depart,pos,arrivee,pas):
                         pas+=1
                     else:
                         print("Robot droit devant!")
-                        sleep(0.2)
+                        sleep(pause)
         
     # On efface, réaffiche les commandes, cartographie et affiche la carte
     
@@ -489,9 +489,9 @@ def cartographiage(lab,carte,x,y,depart,xa,ya,dir,texte):
     for i in range(0,len(depart)):
         yd = 2*depart[i][0]+1
         xd = 4*depart[i][1]+2
-        if(y != yd or x != xd and (carte[yd][xd] == (" "))):
+        if(carte[yd][xd] == " "):
             carte[yd][xd] = "D"
     if(y != ya or x != xa):
         carte[ya][xa] = "A"
     afficheTab(carte)
-    sleep(0.1)
+    sleep(0.2)

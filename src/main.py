@@ -19,21 +19,21 @@ def main():
 
     ok = False
     while(not(ok)):
-        dim = input("Dimension du labyrinthe souhaité? (nombre entier positif) ")
+        dim = input("Dimension du labyrinthe souhaité? (nombre entier supérieur à 1) ")
         try:
             dim = int(dim)
-            if(dim >= 1):
+            if(dim > 1):
                 ok = True
         except:
             print("Choix invalide : choisir un nombre entier \n" )
 
     ok = False
     while(not(ok)):
-        affiche = input('Voulez-vous afficher la génération du Labyrinthe? ("oui" ou "non") ')
-        if(affiche == 'oui'):
+        affiche = input('Voulez-vous afficher la génération du Labyrinthe? ("o" ou "n") ')
+        if(affiche == 'o'):
             affiche = True
             ok = True
-        elif(affiche == 'non'):
+        elif(affiche == 'n'):
             affiche = False
             ok = True
         else:
@@ -59,35 +59,51 @@ def main():
     lb.carteInit(carte)
     
 
-    # On Choisit le menu approprié en fonction du nombre de robot
+    # Affichage menu approprié
+    # SOLO
     if(nbreRobot == 1):
-        option = input("Mode de résolution : \n ¤ manuel \n ¤ droite \n ¤ aléatoire \n ¤ poids \n \n")
+        ok = False
+        while(not(ok)):
+            option = input("Mode de résolution : \n ¤ manuel \n ¤ droite \n ¤ aléatoire \n ¤ poids \n \n")
+            if(option == 'manuel' or option == 'droite' or option == 'aléatoire' or option == 'poids'):
+                ok = True
+            else:
+                print("Choix invalide: choisir une option dans la liste \n")
+
+    # COOPERATION
     else:
-        option = input("Mode de résolution : \n ¤ droite \n ¤ aléatoire \n ¤ poids \n \n")
+        ok = False
+        while(not(ok)):
+            option = input("Mode de résolution : \n ¤ droite \n ¤ aléatoire \n ¤ poids \n \n")
+            if(option == 'manuel' or option == 'droite' or option == 'aléatoire' or option == 'poids'):
+                ok = True
+            else:
+                print("Choix invalide: choisir une option dans la liste \n")
 
     system('cls')
 
     # On démarre la phase de déplacement avec l'algo choisi / mode manuel
-    dir = 'X'
+    dir = []
     run = True
     pos = []
     pas = 0
     for i in range(0,nbreRobot):
+        dir.append('X')
         pos.append([depart[i][0],depart[i][1]])
 
     # Mode manuel
     if(option == 'manuel' and nbreRobot == 1):
         while(run):
-            [run,carte,pos[0],dir,pas] = lb.deplacement(lab,carte,dir,depart,pos[0],arrivee,pas)
+            [run,carte,pos[0],dir[i],pas] = lb.deplacement(lab,carte,dir[i],depart,pos[0],arrivee,pas)
 
     # Toujours à droite
     elif(option == 'droite'):
         while(run):
             for i in range(0,nbreRobot):
                 if(run):
-                    action = algos.toujoursDroite(carte,dir,pos[i])
+                    action = algos.toujoursDroite(carte,dir[i],pos[i])
                     algos.communication(action)
-                    [run,carte,pos[i],dir,pas] = lb.deplacementAlgo(action,lab,carte,dir,depart,pos[i],arrivee,pas)
+                    [run,carte,pos[i],dir[i],pas] = lb.deplacementAlgo(action,lab,carte,dir[i],depart,pos[i],arrivee,pas)
                 else: break
     
     elif(option == 'aléatoire'):
@@ -96,7 +112,7 @@ def main():
                 if(run):
                     action = algos.leDestin()
                     algos.communication(action)
-                    [run,carte,pos[i],dir,pas] = lb.deplacementAlgo(action,lab,carte,dir,depart,pos[i],arrivee,pas)
+                    [run,carte,pos[i],dir[i],pas] = lb.deplacementAlgo(action,lab,carte,dir[i],depart,pos[i],arrivee,pas)
                 else: break
     
     elif(option ==  'poids'):
@@ -104,14 +120,15 @@ def main():
         while(run):
             if(premierPassage):
                 # Données initiales utiles pour l'algorithme
-                dir = "↑"
+                for i in range(0,nbreRobot):
+                    dir[i] = "↑"
                 poids = algos.initPoids(dim,arrivee)
                 premierPassage = False
 
             for i in range(0,nbreRobot):
                 if(run):
-                    [action,poids] = algos.poids(carte,dim,dir,pos[i],poids)
-                    [run,carte,pos[i],dir,pas] = lb.deplacementAlgo(action,lab,carte,dir,depart,pos[i],arrivee,pas)
+                    [action,poids] = algos.poids(carte,dim,dir[i],pos[i],poids)
+                    [run,carte,pos[i],dir[i],pas] = lb.deplacementAlgo(action,lab,carte,dir[i],depart,pos[i],arrivee,pas)
                     poids = algos.actuPoids(poids,carte,arrivee)
                     algos.affichePoids(poids)
                     algos.communication(action)

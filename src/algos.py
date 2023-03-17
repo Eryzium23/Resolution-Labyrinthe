@@ -10,7 +10,7 @@ def communication(action):
             print("Je tourne à droite bip boup!")
         case 'gauche':
             print("Je tourne à gauche bip boup!")
-        case 'avancers':
+        case 'avancer':
             print("J'avance boup bip!")
         case 'demitour':
             print("Je fais un 180° beep!")
@@ -293,7 +293,7 @@ def poids(carte,dim,dir,pos,poids):
                 case '↑':
                     action = 'demitour'
     
-    if(action == 'none'):
-        action = toujoursDroite(carte,dir,pos)
+    #if(action == 'none'):
+    #    action = toujoursDroite(carte,dir,pos)
 
     return [action,poids]
