@@ -16,7 +16,7 @@ def communication(action):
             print("Je fais un 180° beep!")
         case 'none':
             print("Chômage technique boup boup!")
-    sleep(0.3)
+    sleep(0.2)
 
 
 # ALEATOIRE

@@ -494,4 +494,3 @@ def cartographiage(lab,carte,x,y,depart,xa,ya,dir,texte):
     if(y != ya or x != xa):
         carte[ya][xa] = "A"
     afficheTab(carte)
-    sleep(0.2)
