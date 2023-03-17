@@ -190,7 +190,7 @@ def taillage(lab,dim,affiche):
 
     # On fait une pause d'1s pour l'affichage
     if(affiche):
-        sleep(1)    
+        sleep(1)
 
     # On renvoie le labyrinthe et la case de départ
     return [lab,depart,arrivee]  
