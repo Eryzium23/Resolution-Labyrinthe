@@ -19,10 +19,11 @@ def main():
 
     ok = False
     while(not(ok)):
-        dim = input("Dimension du labyrinthe souhaité? (nombre entier) ")
+        dim = input("Dimension du labyrinthe souhaité? (nombre entier positif) ")
         try:
             dim = int(dim)
-            ok = True
+            if(dim >= 1):
+                ok = True
         except:
             print("Choix invalide : choisir un nombre entier \n" )
 
@@ -40,25 +41,26 @@ def main():
 
     ok = False
     while(not(ok)):
-        nbreRobot = input("Combien de robots pour la résolution? (nombre entier)")
+        nbreRobot = input("Combien de robots pour la résolution? (nombre entier positif)")
         try:
             nbreRobot = int(nbreRobot)
-            ok = True
+            if(nbreRobot >= 1):
+                ok = True
         except:
-            print("Choix invalide: choisir un nombre entier \n")
+            print("Choix invalide: choisir un nombre entier positif \n")
 
     system('cls')
     
     # Création du Labyrinthe + Carte
+    # TODO:
+    # - taillage prend nbreRobot
+    # - les algos aussi
     lab = lb.labInit(dim,pil,murH,murV)                      # On initie un labyrinthe vierge
     [lab,depart,arrivee] = lb.taillage(lab,dim,affiche)              # On le dim/sculpte
     carte = lb.labInit(dim,pil,murH,murV)
     lb.carteInit(carte)                                      # On initialise un labyrinthe avec que les murs extérieurs
     
     # On Choisit le menu approprié en fonction du nombre de robot
-    if(nbreRobot == 0):
-        print("Choix invalide")
-        return
     if(nbreRobot == 1):
         option = input("Mode de résolution : \n ¤ manuel \n ¤ droite \n ¤ aléatoire \n ¤ poids \n \n")
     else:
