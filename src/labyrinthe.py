@@ -189,7 +189,8 @@ def taillage(lab,dim,affiche):
     lab[1+2*arrivee[1]][2+4*arrivee[0]] = "A"
 
     # On fait une pause d'1s pour l'affichage
-    sleep(1)    
+    if(affiche):
+        sleep(1)    
 
     # On renvoie le labyrinthe et la case de départ
     return [lab,depart,arrivee]  
