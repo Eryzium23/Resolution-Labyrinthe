@@ -82,7 +82,7 @@ def estCoince(tab,i,j):
 
 ##### TAILLAGE 'Hunt & kill' #####
 
-def taillage(lab,dim,affiche):
+def taillage(lab,dim,nbreRobot,affiche):
 
     # On créé un tableau de même dimension que le labyrinthe représenté par des 0
     # 0 = pas encore parcourue
@@ -178,14 +178,22 @@ def taillage(lab,dim,affiche):
                             count+=1
     
     # On définit un départ et une arrivée au labyrinthe taillé
-    depart = [random.randint(0,dim-1),random.randint(0,dim-1)]
+    depart = []
+    for i in range(0,nbreRobot):
+        depart.append([random.randint(0,dim-1),random.randint(0,dim-1)])
+        lab[1+2*depart[i][1]][2+4*depart[i][0]] = "D"
     ya = random.randint(0,dim-1)
     xa = random.randint(0,dim-1)
-    while(ya == depart[0] and xa == depart[1]):
+    ok = False
+    while(not(ok)):
         ya = random.randint(0,dim-1)
         xa = random.randint(0,dim-1)
+        ok = True
+        for i in range(0,nbreRobot):
+            if(ya == depart[i][0] and xa == depart[i][1]):
+                ok = False
+                break
     arrivee = [ya,xa]
-    lab[1+2*depart[1]][2+4*depart[0]] = "D"
     lab[1+2*arrivee[1]][2+4*arrivee[0]] = "A"
 
     # On fait une pause d'1s pour l'affichage
@@ -214,8 +222,6 @@ def deplacement(lab,carte,dir,depart,pos,arrivee,pas):
     texte = "D = Départ ; A = Arrivée ; X = position initiale ;\nAppuyer sur z/q/s/d ou les flèches pour vous déplacer, echap pour quitter :"
     
     # Coordonnées du départ et arrivée du labyrinthe
-    yd = 2*depart[0]+1
-    xd = 4*depart[1]+2
     ya = 2*arrivee[0]+1
     xa = 4*arrivee[1]+2
 
@@ -230,7 +236,7 @@ def deplacement(lab,carte,dir,depart,pos,arrivee,pas):
     carte[y][x] = dir
 
     if(dir == 'X'):
-        cartographiage(lab,carte,x,y,xd,yd,xa,ya,dir,texte)
+        cartographiage(lab,carte,x,y,depart,xa,ya,dir,texte)
 
     # On regarde quelle touche est appuyé
     event = kb.read_event()
@@ -297,7 +303,7 @@ def deplacement(lab,carte,dir,depart,pos,arrivee,pas):
 
         
         # On cartographie et affiche la carte
-        cartographiage(lab,carte,x,y,xd,yd,xa,ya,dir,texte)
+        cartographiage(lab,carte,x,y,depart,xa,ya,dir,texte)
         if(y == ya and x == xa):
             run = False
             print("Gagné en", pas, "pas !")
@@ -312,8 +318,6 @@ def deplacementAlgo(action,lab,carte,dir,depart,pos,arrivee,pas):
     texte = "D = Départ ; A = Arrivée ; X = position initiale"
     
     # Coordonnées du départ et arrivée du labyrinthe
-    yd = 2*depart[0]+1
-    xd = 4*depart[1]+2
     ya = 2*arrivee[0]+1
     xa = 4*arrivee[1]+2
 
@@ -328,7 +332,7 @@ def deplacementAlgo(action,lab,carte,dir,depart,pos,arrivee,pas):
     carte[y][x] = dir
     
     if(dir == 'X'):
-        cartographiage(lab,carte,x,y,xd,yd,xa,ya,dir,texte)
+        cartographiage(lab,carte,x,y,depart,xa,ya,dir,texte)
     
     # Tourner à Droite
     if(action == 'droite'):
@@ -415,7 +419,7 @@ def deplacementAlgo(action,lab,carte,dir,depart,pos,arrivee,pas):
         
     # On efface, réaffiche les commandes, cartographie et affiche la carte
     
-    cartographiage(lab,carte,x,y,xd,yd,xa,ya,dir,texte)
+    cartographiage(lab,carte,x,y,depart,xa,ya,dir,texte)
     if(y == ya and x == xa):
         run = False
         print("Gagné en", pas, "pas !")
@@ -425,11 +429,10 @@ def deplacementAlgo(action,lab,carte,dir,depart,pos,arrivee,pas):
 
 ##### CARTOGRAPHIE #####
 
-def cartographiage(lab,carte,x,y,xd,yd,xa,ya,dir,texte):
-
+def cartographiage(lab,carte,x,y,depart,xa,ya,dir,texte):
     # On récupère la position initiale
     carte[y][x] = dir
-
+   
     # On récupère le murs de Droite
     if not(dir == '←'):
         carte[y][2+x] = lab[y][2+x]
@@ -458,9 +461,12 @@ def cartographiage(lab,carte,x,y,xd,yd,xa,ya,dir,texte):
 
     # AFFICHAGE
     system('cls')
-    print(texte)    
-    if(y != yd or x != xd):
-        carte[yd][xd] = "D"
+    print(texte)
+    for i in range(0,len(depart)):
+        yd = 2*depart[i][0]+1
+        xd = 4*depart[i][1]+2
+        if(y != yd or x != xd and (carte[yd][xd] == (" "))):
+            carte[yd][xd] = "D"
     if(y != ya or x != xa):
         carte[ya][xa] = "A"
     afficheTab(carte)
