@@ -19,7 +19,7 @@ def main():
         print("Paramètres manquants!")
         ok = False
     else:
-        # DIM
+        # DIMENSION
         if(args.dim < 2):
             print("Dimension trop petite!")
             ok = False
@@ -38,6 +38,8 @@ def main():
             print("Trop de robots pour la dimension choisie!")
             ok = False
 
+
+    # Arguments Valides <=> ok = True
     if(ok):
         # Paramètres de créations du labyrinthe
         pil ="o"
@@ -137,6 +139,3 @@ def main():
 
 
 main()
-
-# Autre programme pour la résolution
-# Séparer les méthodes
