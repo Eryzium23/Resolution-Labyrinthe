@@ -37,10 +37,10 @@ def afficheLab(tab):
         for j in range(len(tab[i])):
             # FLECHES
             if(tab[i][j] == '→' or tab[i][j] == '←' or tab[i][j] == '↑' or tab[i][j] == '↓' or tab[i][j] == 'X'):
-                print(Fore.BLUE+tab[i][j]+Style.RESET_ALL, end="")
+                print(Fore.BLUE+Style.BRIGHT+tab[i][j]+Style.RESET_ALL, end="")
             # ARRIVEE
             elif(tab[i][j] == 'A'):
-                print(Fore.RED+tab[i][j]+Style.RESET_ALL, end="")
+                print(Fore.RED+Style.BRIGHT+tab[i][j]+Style.RESET_ALL, end="")
             # DEPART
             elif(tab[i][j] == 'D'):
                 print(Fore.GREEN+tab[i][j]+Style.RESET_ALL, end="")
