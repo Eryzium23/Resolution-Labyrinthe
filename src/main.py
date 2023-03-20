@@ -147,10 +147,10 @@ def main():
                     else: break
 
         else: print("Choix invalide: choisir une option de la liste")
-        if(not(run)):
-            if(not(args.write == None)):
-                with open("./lab/"+args.write+'.pkl', 'wb') as f:
-                    pickle.dump([lab,depart,arrivee,dim,nbreRobot], f)
-                    print("Labyrinthe enregistré! \n")
+
+        if(not(args.write == None)):
+            with open("./lab/"+args.write+'.pkl', 'wb') as f:
+                pickle.dump([lab,depart,arrivee,dim,nbreRobot], f)
+                print("Labyrinthe enregistré! \n")
 
 main()
