@@ -1,8 +1,9 @@
 import labyrinthe as lb
 import algos
+import argparse
+import pickle
 from time import sleep
 from os import system
-import argparse
 
 def main():
 
@@ -12,8 +13,8 @@ def main():
     argParse.add_argument("-d", "--dim", type=int, help="Dimension du labyrinthe : entier supérieur à 1.")
     argParse.add_argument("-a", "--affiche", action='store_true', help='Affichage de la génération')
     argParse.add_argument("-nbr", "--nombreR", type=int, help='Nombre de robot : 1 ou plus')
-    argParse.add_argument("-l", "--load", action='store_true', help='Chargement de labyrinthe (labyrinthe.txt)')
-    argParse.add_argument("-w", "--write", action='store_true', help='Enregistrement de labyrinthe (labyrinthe.txt)')
+    argParse.add_argument("-l", "--load",  type=str, help='Chargement de labyrinthe')
+    argParse.add_argument("-w", "--write", type=str, help="Path d'enregistrement de labyrinthe ")
     args = argParse.parse_args()
 
     ok = True
@@ -35,8 +36,6 @@ def main():
             ok = False
 
     affiche = args.affiche
-    load = args.load
-    write = args.write
 
     # Arguments Valides <=> ok = True
     if(ok):
@@ -53,9 +52,14 @@ def main():
         system('cls')
 
         # Création du Labyrinthe, Départ(s), Arrivée, Carte
-        if(load):
-            # TODO
-            pass
+        if(not(args.load == None)):
+            try:
+                with open("./lab/"+args.load+'.pkl', 'rb') as f:  # Python 3: open(..., 'rb')
+                    lab, depart, arrivee = pickle.load(f)
+                    print("Labyrinthe chargé! \n")
+            except:
+                print("Fichier introuvable!")
+                exit()
         else:
             lab = lb.labInit(dim,pil,murH,murV)
             [lab,depart,arrivee] = lb.taillage(lab,dim,nbreRobot,affiche)
@@ -143,8 +147,9 @@ def main():
 
         else: print("Choix invalide: choisir une option de la liste")
         if(not(run)):
-            if(write):
-                # TODO
-                pass
+            if(not(args.write == None)):
+                with open("./lab/"+args.write+'.pkl', 'wb') as f:
+                    pickle.dump([lab, depart,arrivee], f)
+                    print("Labyrinthe enregistré! \n")
 
 main()
