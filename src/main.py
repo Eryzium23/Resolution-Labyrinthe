@@ -13,27 +13,28 @@ def main():
     argParse.add_argument("-d", "--dim", type=int, help="Dimension du labyrinthe : entier supérieur à 1.")
     argParse.add_argument("-a", "--affiche", action='store_true', help='Affichage de la génération')
     argParse.add_argument("-nbr", "--nombreR", type=int, help='Nombre de robot : 1 ou plus')
-    argParse.add_argument("-l", "--load",  type=str, help='Chargement de labyrinthe')
-    argParse.add_argument("-w", "--write", type=str, help="Path d'enregistrement de labyrinthe ")
+    argParse.add_argument("-l", "--load",  type=str, help='Chemin de chargement de labyrinthe (ne prends pas en compte les autres arguments)')
+    argParse.add_argument("-w", "--write", type=str, help="Chemin d'enregistrement de labyrinthe ")
     args = argParse.parse_args()
 
     ok = True
-    if(args.nombreR == None or args.dim == None):
-        print("Paramètres manquants!")
-        ok = False
-    else:
-        # DIMENSION
-        if(args.dim < 2):
-            print("Dimension trop petite!")
+    if(args.load == None):
+        if(args.nombreR == None or args.dim == None):
+            print("Paramètres manquants!")
             ok = False
+        else:
+            # DIMENSION
+            if(args.dim < 2):
+                print("Dimension trop petite!")
+                ok = False
 
-        # NOMBRE ROBOT
-        if(args.nombreR <= 0):
-            print("Nombre de robots incorrect!")
-            ok = False
-        if(args.nombreR > int((args.dim)/2)):
-            print("Trop de robots pour la dimension choisie!")
-            ok = False
+            # NOMBRE ROBOT
+            if(args.nombreR <= 0):
+                print("Nombre de robots incorrect!")
+                ok = False
+            if(args.nombreR > int((args.dim)/2)):
+                print("Trop de robots pour la dimension choisie!")
+                ok = False
 
     affiche = args.affiche
 
@@ -55,7 +56,7 @@ def main():
         if(not(args.load == None)):
             try:
                 with open("./lab/"+args.load+'.pkl', 'rb') as f:  # Python 3: open(..., 'rb')
-                    lab, depart, arrivee = pickle.load(f)
+                    lab, depart, arrivee, dim, nbreRobot = pickle.load(f)
                     print("Labyrinthe chargé! \n")
             except:
                 print("Fichier introuvable!")
@@ -149,7 +150,7 @@ def main():
         if(not(run)):
             if(not(args.write == None)):
                 with open("./lab/"+args.write+'.pkl', 'wb') as f:
-                    pickle.dump([lab, depart,arrivee], f)
+                    pickle.dump([lab,depart,arrivee,dim,nbreRobot], f)
                     print("Labyrinthe enregistré! \n")
 
 main()
