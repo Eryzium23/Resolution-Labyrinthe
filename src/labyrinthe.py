@@ -105,7 +105,7 @@ def taillage(lab,dim,nbreRobot,affiche):
     y = random.randint(0,dim-1)
     x = random.randint(0,dim-1)
     depart = [y,x]
-    parcours[y][x]=1
+    parcours[y][x] = 1
 
     pause = 0.2
     if(affiche) :
@@ -233,7 +233,7 @@ def carteInit(carte):
 
 def deplacement(lab,carte,dir,depart,pos,arrivee,pas):
     
-    texte = "D = Départ ; A = Arrivée ; X = position initiale ;\nAppuyer sur z/q/s/d ou les flèches pour vous déplacer, echap pour quitter :"
+    texte = "D = Départ ; A = Arrivée ; X = position initiale ;\nAppuyer sur z/q/s/d ou les flèches pour vous déplacer ; Echap pour quitter :"
     
     # Coordonnées du départ et arrivée du labyrinthe
     ya = 2*arrivee[0]+1
@@ -247,7 +247,6 @@ def deplacement(lab,carte,dir,depart,pos,arrivee,pas):
     # Paramètres utiles aux calculs de déplacement
     murH = lab[0][1]
     murV = lab[1][0]
-    carte[y][x] = dir
 
     if(dir == 'X'):
         cartographiage(lab,carte,x,y,depart,xa,ya,dir,texte)
@@ -259,8 +258,8 @@ def deplacement(lab,carte,dir,depart,pos,arrivee,pas):
             
             # DROITE
             case 'd' | 'droite':
-                if (dir == '→'):
-                    if (lab[y][x+2] == murV):
+                if(dir == '→'):
+                    if(lab[y][x+2] == murV):
                         print("Mur rencontré")
                         sleep(0.2)
                     else:

@@ -99,7 +99,6 @@ def affichePoids(poids):
         for j in range(len(poids[i])):
             if (poids[i][j] >= poidsMax):
                 poidsMax = poids[i][j]
-    print(poidsMax)
     print("Poids : \n")
     for i in range(len(poids)):
         for j in range(len(poids[i])):
