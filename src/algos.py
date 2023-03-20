@@ -100,23 +100,23 @@ def affichePoids(poids):
             calc = poids[i][j]%6
             match calc:
                 case 0:
-                    color = Fore.MAGENTA
-                case 1:
-                    color = Fore.BLUE
-                case 2:
-                    color = Fore.CYAN
-                case 3:
-                    color = Fore.GREEN
-                case 4:
-                    color = Fore.YELLOW
-                case 5:
                     color = Fore.RED
+                case 1:
+                    color = Fore.YELLOW
+                case 2:
+                    color = Fore.GREEN
+                case 3:
+                    color = Fore.CYAN
+                case 4:
+                    color = Fore.BLUE
+                case 5:
+                    color = Fore.MAGENTA
             esp = "    "
             if(poids[i][j]>9):
                 esp ="   "
             if(poids[i][j]>99):
                 esp ="  "
-            print(color+str(poids[i][j]) +Style.RESET_ALL, end=esp)
+            print(color + str(poids[i][j]) + Style.RESET_ALL, end=esp)
             
         print()
     print()
