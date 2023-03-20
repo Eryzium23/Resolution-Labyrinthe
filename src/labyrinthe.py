@@ -4,14 +4,6 @@ from os import system
 import keyboard as kb
 from colorama import Fore, Style
 
-# Flèches de directions
-
-fdroite = Fore.RED + '→' + Style.RESET_ALL
-fgauche = Fore.RED + '←' + Style.RESET_ALL
-fhaut = Fore.RED + '↑' + Style.RESET_ALL
-fbas = Fore.RED + '↓' + Style.RESET_ALL
-
-
 
 ##### INITIATION LABYRINTHE #####
 
@@ -43,7 +35,14 @@ def labInit(dim,pil,murH,murV):
 def afficheLab(tab):                       
     for i in range(len(tab)):
         for j in range(len(tab[i])):
-            print(tab[i][j], end="")
+            if(tab[i][j] == '→' or tab[i][j] == '←' or tab[i][j] == '↑' or tab[i][j] == '↓' or tab[i][j] == 'X'):
+                print(Fore.BLUE+tab[i][j]+Style.RESET_ALL, end="")
+            elif(tab[i][j] == 'A'):
+                print(Fore.RED+tab[i][j]+Style.RESET_ALL, end="")
+            elif(tab[i][j] == 'D'):
+                print(Fore.GREEN+tab[i][j]+Style.RESET_ALL, end="")
+            else:
+                print(tab[i][j], end="")
         print()
     print()
 
