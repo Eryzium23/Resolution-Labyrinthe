@@ -28,59 +28,63 @@ def creation(lab,dim,dir,pos):
             
             # DROITE
             case 'd' | 'droite':
-                if(lab[y][x+2] == murV and x < 4*dim+2):
-                    lab[y][x+2] = ' '
-                else:
-                    print("Hors limite!")
-                if(lab[y][x+2] == " "):
+                if(x+4 < 4*dim+1):
+                    if(lab[y][x+2] == murV):
+                        lab[y][x+2] = ' '
                     lab[y][x] = " "
                     x+=4
                     pos[1]+=1
                     dir = '→'
                     lab[y][x] = dir
+                else:
+                    print("Hors limite!")
+                    sleep(0.2)
 
             # GAUCHE
             case 'q' | 'gauche':
-                if(lab[y][x-2] == murV and x > 0):
-                    lab[y][x-2] = ' '
-                else:
-                    print("Hors limite!")
-                if(lab[y][x-2] == " "):
+                if(x-4 > 0):
+                    if(lab[y][x-2] == murV):
+                        lab[y][x-2] = ' '
                     lab[y][x] = " "
                     x-=4
                     pos[1]-=1
-                    dir = '←'  
-                    lab[y][x] = dir      
+                    dir = '←'
+                    lab[y][x] = dir
+                else:
+                    print("Hors limite!")
+                    sleep(0.2)
 
             # HAUT
             case 'z' | 'haut':
-                if(lab[y-1][x] == murH and y > 0):
-                    lab[y-1][x-1] = ' '
-                    lab[y-1][x] = ' '
-                    lab[y-1][x+1] = ' '
-                else:
-                    print("Hors limite!")
-                if(lab[y-1][x] == " "):
+                if(y-2 > 0):
+                    if(lab[y-1][x] == murH):
+                        lab[y-1][x-1] = ' '
+                        lab[y-1][x] = ' '
+                        lab[y-1][x+1] = ' '
                     lab[y][x] = " "
                     y-=2
                     pos[0]-=1
                     dir = '↑'
                     lab[y][x] = dir
+                else:
+                    print("Hors limite!")
+                    sleep(0.2)
             
             # BAS
             case 's' | 'bas':
-                if(lab[y+1][x] == murH and y < 2*dim+1):
-                    lab[y+1][x-1] = ' '
-                    lab[y+1][x] = ' '
-                    lab[y+1][x+1] = ' '
-                else:
-                    print("Hors limite!")
-                if(lab[y+1][x] == " "):
+                if(y+2 < 2*dim+1):
+                    if(lab[y+1][x] == murH):
+                        lab[y+1][x-1] = ' '
+                        lab[y+1][x] = ' '
+                        lab[y+1][x+1] = ' '
                     lab[y][x] = " "
                     y+=2
                     pos[0]+=1
                     dir = '↓'
                     lab[y][x] = dir
+                else:
+                    print("Hors limite!")
+                    sleep(0.2)
 
             # QUITTER    
             case 'esc':
