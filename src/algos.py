@@ -94,29 +94,34 @@ def toujoursDroite(carte,dir,pos):
 # POIDS
 
 def affichePoids(poids):
+    poidsMax = 0
+    for i in range(len(poids)):
+        for j in range(len(poids[i])):
+            if (poids[i][j] >= poidsMax):
+                poidsMax = poids[i][j]
+    print(poidsMax)
     print("Poids : \n")
     for i in range(len(poids)):
         for j in range(len(poids[i])):
-            calc = poids[i][j]%6
-            match calc:
-                case 0:
-                    color = Fore.RED
-                case 1:
-                    color = Fore.YELLOW
-                case 2:
-                    color = Fore.GREEN
-                case 3:
-                    color = Fore.CYAN
-                case 4:
-                    color = Fore.BLUE
-                case 5:
-                    color = Fore.MAGENTA
+            calc = poids[i][j]
+            if(calc<poidsMax/6):
+                color = Fore.RED
+            elif(calc<poidsMax/6*2):
+                color = Fore.YELLOW
+            elif(calc<poidsMax/6*3):
+                color = Fore.GREEN
+            elif(calc<poidsMax/6*4):
+                color = Fore.CYAN
+            elif(calc<poidsMax/6*5):
+                color = Fore.BLUE
+            elif(calc<=poidsMax):
+                color = Fore.MAGENTA
             esp = "    "
             if(poids[i][j]>9):
                 esp ="   "
             if(poids[i][j]>99):
                 esp ="  "
-            print(color + str(poids[i][j]) + Style.RESET_ALL, end=esp)
+            print(color + Style.BRIGHT + str(poids[i][j]) + Style.RESET_ALL, end=esp)
             
         print()
     print()
