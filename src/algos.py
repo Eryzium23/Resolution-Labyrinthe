@@ -1,6 +1,7 @@
 import random
 import keyboard as kb
 import labyrinthe as lb
+from colorama import Fore, Style
 from time import sleep
 
 
@@ -96,12 +97,27 @@ def affichePoids(poids):
     print("Poids : \n")
     for i in range(len(poids)):
         for j in range(len(poids[i])):
+            calc = poids[i][j]%6
+            match calc:
+                case 0:
+                    color = Fore.MAGENTA
+                case 1:
+                    color = Fore.BLUE
+                case 2:
+                    color = Fore.CYAN
+                case 3:
+                    color = Fore.GREEN
+                case 4:
+                    color = Fore.YELLOW
+                case 5:
+                    color = Fore.RED
             esp = "    "
             if(poids[i][j]>9):
                 esp ="   "
             if(poids[i][j]>99):
                 esp ="  "
-            print(poids[i][j], end=esp)
+            print(color+str(poids[i][j]) +Style.RESET_ALL, end=esp)
+            
         print()
     print()
 
