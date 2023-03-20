@@ -9,13 +9,15 @@ def main():
     # ARGUMENTS DU SCRIPT
     argParse = argparse.ArgumentParser()
 
-    argParse.add_argument("-d", "--dim", type=int, help="entier supérieur à 1")
-    argParse.add_argument("-a", "--affiche", type=str, help='"oui" ou "non", affiche ou non la génération du labyrinthe')
-    argParse.add_argument("-nbr", "--nombreR", type=int, help='Nombre de robot: 1 ou plus')
+    argParse.add_argument("-d", "--dim", type=int, help="Dimension du labyrinthe : entier supérieur à 1.")
+    argParse.add_argument("-a", "--affiche", action='store_true', help='Affichage de la génération')
+    argParse.add_argument("-nbr", "--nombreR", type=int, help='Nombre de robot : 1 ou plus')
+    argParse.add_argument("-l", "--load", action='store_true', help='Chargement de labyrinthe (labyrinthe.txt)')
+    argParse.add_argument("-w", "--write", action='store_true', help='Enregistrement de labyrinthe (labyrinthe.txt)')
     args = argParse.parse_args()
 
     ok = True
-    if(args.nombreR == None or args.affiche == None or args.dim == None):
+    if(args.nombreR == None or args.dim == None):
         print("Paramètres manquants!")
         ok = False
     else:
@@ -23,12 +25,6 @@ def main():
         if(args.dim < 2):
             print("Dimension trop petite!")
             ok = False
-
-        # AFFICHE
-        if(args.affiche == 'oui' or args.affiche == 'o' or args.affiche == 'y' or args.affiche == 'yes'):
-            affiche = True
-        elif(args.affiche == 'non' or args.affiche == 'n' or args.affiche == 'no'):
-            affiche = False
 
         # NOMBRE ROBOT
         if(args.nombreR <= 0):
@@ -38,9 +34,13 @@ def main():
             print("Trop de robots pour la dimension choisie!")
             ok = False
 
+    affiche = args.affiche
+    load = args.load
+    write = args.write
 
     # Arguments Valides <=> ok = True
     if(ok):
+        
         # Paramètres de créations du labyrinthe
         pil = "o"
         murH = "-"
@@ -53,13 +53,17 @@ def main():
         system('cls')
 
         # Création du Labyrinthe, Départ(s), Arrivée, Carte
-        lab = lb.labInit(dim,pil,murH,murV)
-        [lab,depart,arrivee] = lb.taillage(lab,dim,nbreRobot,affiche)
+        if(load):
+            # TODO
+            pass
+        else:
+            lab = lb.labInit(dim,pil,murH,murV)
+            [lab,depart,arrivee] = lb.taillage(lab,dim,nbreRobot,affiche)
         carte = lb.labInit(dim,pil,murH,murV)
         lb.carteInit(carte)
         
 
-        # Affichage menu approprié
+        ### Affichage menu approprié
         # SOLO
         if(nbreRobot == 1):
             ok = False
@@ -82,7 +86,7 @@ def main():
 
         system('cls')
 
-        # On démarre la phase de déplacement avec l'algo choisi / mode manuel
+        ##### PHASE DEPLACEMENTS 
         dir = []
         run = True
         pos = []
@@ -91,12 +95,12 @@ def main():
             dir.append('X')
             pos.append([depart[i][0],depart[i][1]])
 
-        # Mode manuel
+        # MANUEL
         if(option == 'manuel' and nbreRobot == 1):
             while(run):
                 [run,carte,pos[0],dir[i],pas] = lb.deplacement(lab,carte,dir[i],depart,pos[0],arrivee,pas)
 
-        # Toujours à droite
+        # DROITE
         elif(option == 'droite'):
             while(run):
                 for i in range(0,nbreRobot):
@@ -106,6 +110,7 @@ def main():
                         [run,carte,pos[i],dir[i],pas] = lb.deplacementAlgo(action,lab,carte,dir[i],depart,pos[i],arrivee,pas)
                     else: break
         
+        # ALEATOIRE
         elif(option == 'aléatoire'):
             while(run):
                 for i in range(0,nbreRobot):
@@ -115,6 +120,7 @@ def main():
                         [run,carte,pos[i],dir[i],pas] = lb.deplacementAlgo(action,lab,carte,dir[i],depart,pos[i],arrivee,pas)
                     else: break
         
+        # POIDS
         elif(option ==  'poids'):
             premierPassage = True
             while(run):
@@ -136,6 +142,9 @@ def main():
                     else: break
 
         else: print("Choix invalide: choisir une option de la liste")
-
+        if(not(run)):
+            if(write):
+                # TODO
+                pass
 
 main()
