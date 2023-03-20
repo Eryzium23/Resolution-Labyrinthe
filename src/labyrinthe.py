@@ -2,6 +2,15 @@ import random
 from time import sleep
 from os import system
 import keyboard as kb
+from colorama import Fore, Style
+
+# Flèches de directions
+
+fdroite = Fore.RED + '→' + Style.RESET_ALL
+fgauche = Fore.RED + '←' + Style.RESET_ALL
+fhaut = Fore.RED + '↑' + Style.RESET_ALL
+fbas = Fore.RED + '↓' + Style.RESET_ALL
+
 
 
 ##### INITIATION LABYRINTHE #####
@@ -31,7 +40,7 @@ def labInit(dim,pil,murH,murV):
 
 ##### AFFICHAGE TABLEAU #####
 
-def afficheTab(tab):                       
+def afficheLab(tab):                       
     for i in range(len(tab)):
         for j in range(len(tab[i])):
             print(tab[i][j], end="")
@@ -53,25 +62,25 @@ def estCoince(tab,i,j):
     if(j+1 < len(tab)) :                 # Si la case existe
         if(tab[i][j+1] == 1):               # Si la case est parcouru (=1)
             droite = True                       # Le booléen associé est vrai (ici "droite")
-    else: droite = True    
+    else: droite = True
 
     # gauche
     if(j-1 >= 0):
         if(tab[i][j-1] == 1):
             gauche = True
-    else: gauche = True    
+    else: gauche = True
+
+    # haut
+    if(i-1 >= 0):
+        if(tab[i-1][j] == 1):
+            haut = True
+    else: haut = True
 
     # bas
     if(i+1 < len(tab)):
         if(tab[i+1][j] == 1):
             bas = True
-    else: bas = True    
-    
-    # haut
-    if(i-1 >= 0):
-        if(tab[i-1][j] == 1):
-            haut = True
-    else: haut = True    
+    else: bas = True
 
     # 4 directions
     if(droite & bas & gauche & haut):          # Si les 4 cases voisines sont parcourues (si elles existent)
@@ -97,7 +106,7 @@ def taillage(lab,dim,nbreRobot,affiche):
 
     pause = 0.2
     if(affiche) :
-        afficheTab(lab)
+        afficheLab(lab)
         sleep(pause)
     count = 1
     while(count < dim**2):
@@ -105,14 +114,13 @@ def taillage(lab,dim,nbreRobot,affiche):
         # Si on est coincé
         if (estCoince(parcours,y,x)):
             nouv = True
-            if nouv :
-                for j in range(0,dim):
-                    if nouv :
-                        for i in range(0,dim):                                                          # On cherche parmis toutes les cases
-                            if parcours[j][i] == 1 and not estCoince(parcours,j,i) and nouv:                # La première qui n'est pas coincée
-                                y=j                                                                             # On la prend comme nouveau point de départ
-                                x=i
-                                nouv = False
+            for j in range(0,dim):
+                for i in range(0,dim):                                                          # On cherche parmis toutes les cases
+                    if parcours[j][i] == 1 and not estCoince(parcours,j,i) and nouv:                # La première qui n'est pas coincée
+                        y=j                                                                             # On la prend comme nouveau point de départ
+                        x=i
+                        nouv = False
+                        break
         
         # Si on peut avancer
         else:
@@ -129,10 +137,23 @@ def taillage(lab,dim,nbreRobot,affiche):
                             parcours[y][x] = 1                          # On marque la case
                             if (affiche) :
                                 system('cls')
-                                afficheTab(lab)
+                                afficheLab(lab)
                                 sleep(pause)
                             count+=1                            # On incrémente le nombre de case parcourues
                 
+                # GAUCHE
+                case 3:
+                    if (x-1 >= 0):
+                        if (parcours[y][x-1] == 0):
+                            lab[1+2*y][4*x] = " "
+                            x-=1
+                            parcours[y][x] = 1
+                            if (affiche) :
+                                system('cls')
+                                afficheLab(lab)
+                                sleep(pause)
+                            count+=1
+
                 # HAUT
                 case 2:
                     if (y-1 >= 0):
@@ -144,23 +165,10 @@ def taillage(lab,dim,nbreRobot,affiche):
                             parcours[y][x] = 1
                             if (affiche) :
                                 system('cls')
-                                afficheTab(lab)
+                                afficheLab(lab)
                                 sleep(pause)
                             count+=1
-                
-                # GAUCHE
-                case 3:
-                    if (x-1 >= 0):
-                        if (parcours[y][x-1] == 0):
-                            lab[1+2*y][4*x] = " "
-                            x-=1
-                            parcours[y][x] = 1
-                            if (affiche) :
-                                system('cls')
-                                afficheTab(lab)
-                                sleep(pause)
-                            count+=1
-                
+
                 # BAS
                 case 4:
                     if (y+1 < dim):
@@ -172,11 +180,13 @@ def taillage(lab,dim,nbreRobot,affiche):
                             parcours[y][x] = 1    
                             if (affiche) :
                                 system('cls')
-                                afficheTab(lab)
+                                afficheLab(lab)
                                 sleep(pause)
                             count+=1
     
-    # On définit un départ et une arrivée au labyrinthe taillé
+
+    # On définit un/des départ(s) et une arrivée au labyrinthe taillé
+    # DEPART(S)
     depart = []
     for i in range(0,nbreRobot):
         depart.append([random.randint(0,dim-1),random.randint(0,dim-1)])
@@ -184,6 +194,8 @@ def taillage(lab,dim,nbreRobot,affiche):
     ya = random.randint(0,dim-1)
     xa = random.randint(0,dim-1)
     ok = False
+
+    # ARRIVEE
     while(not(ok)):
         ya = random.randint(0,dim-1)
         xa = random.randint(0,dim-1)
@@ -242,7 +254,7 @@ def deplacement(lab,carte,dir,depart,pos,arrivee,pas):
     if (event.event_type == kb.KEY_DOWN):
         match event.name:
             
-            # Droite
+            # DROITE
             case 'd' | 'droite':
                 if (dir == '→'):
                     if (lab[y][x+2] == murV):
@@ -256,7 +268,7 @@ def deplacement(lab,carte,dir,depart,pos,arrivee,pas):
                         pas+=1
                 else: dir = '→'                    
 
-            # Gauche
+            # GAUCHE
             case 'q' | 'gauche':
                 if(dir == '←'):
                     if(lab[y][x-2] == murV):
@@ -270,7 +282,7 @@ def deplacement(lab,carte,dir,depart,pos,arrivee,pas):
                         pas+=1
                 else: dir = '←'    
 
-            # Haut
+            # HAUT
             case 'z' | 'haut':
                 if(dir == '↑'):
                     if(lab[y-1][x] == murH):
@@ -284,7 +296,7 @@ def deplacement(lab,carte,dir,depart,pos,arrivee,pas):
                         pas+=1
                 else: dir = '↑'
             
-            # Bas
+            # BAS
             case 's' | 'bas':
                 if(dir == '↓'):
                     if(lab[y+1][x] == murH):
@@ -493,4 +505,4 @@ def cartographiage(lab,carte,x,y,depart,xa,ya,dir,texte):
             carte[yd][xd] = "D"
     if(y != ya or x != xa):
         carte[ya][xa] = "A"
-    afficheTab(carte)
+    afficheLab(carte)

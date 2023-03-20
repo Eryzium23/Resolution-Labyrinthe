@@ -42,7 +42,7 @@ def main():
     # Arguments Valides <=> ok = True
     if(ok):
         # Paramètres de créations du labyrinthe
-        pil ="o"
+        pil = "o"
         murH = "-"
         murV = "|"
 
