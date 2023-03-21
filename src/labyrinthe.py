@@ -19,15 +19,15 @@ def labInit(dim,pil,murH,murV):
     # On parcours toute les cases
     for i in range(0,haut):
         for j in range(0,larg):
-            if(i % 2 == 0):              # Si la ligne est paire
-                if(j % 4 == 0):             # Et que la colonne est un multiple de 4
-                    lab[i][j]=pil               # On met un pilier
-                else:                       # Si la colonne n'est pas un multiple de 4
-                    lab[i][j]=murH              # On met un mur horizontale
-            else:                       # Si la ligne est imparire
-                if(j % 4 == 0) :             # Si la colonne est un multiple de 4
-                    lab[i][j]=murV              # On met un mur vertical "|"
-    return lab                          # On retourne le tableau
+            if(i % 2 == 0):                     # Si la ligne est paire
+                if(j % 4 == 0):                     # Et que la colonne est un multiple de 4
+                    lab[i][j]=pil                       # On met un pilier
+                else:                               # Si la colonne n'est pas un multiple de 4
+                    lab[i][j]=murH                      # On met un mur horizontale
+            else:                               # Si la ligne est imparire
+                if(j % 4 == 0) :                    # Si la colonne est un multiple de 4
+                    lab[i][j]=murV                      # On met un mur vertical "|"
+    return lab                                  # On retourne le tableau
 
 
 ##### AFFICHAGE TABLEAU #####
@@ -38,6 +38,9 @@ def afficheLab(tab):
             # FLECHES
             if(tab[i][j] == '→' or tab[i][j] == '←' or tab[i][j] == '↑' or tab[i][j] == '↓' or tab[i][j] == 'X'):
                 print(Fore.CYAN+tab[i][j]+Style.RESET_ALL, end="")
+            # PILLIERS
+            elif(tab[i][j] == "o"):
+                print(Fore.WHITE+Style.BRIGHT+tab[i][j]+Style.RESET_ALL, end="")
             # ARRIVEE
             elif(tab[i][j] == 'A'):
                 print(Fore.RED+Style.BRIGHT+tab[i][j]+Style.RESET_ALL, end="")
@@ -229,7 +232,7 @@ def carteInit(carte):
                 carte[j][i] = " "
 
 
-##### DEPLACEMENTS CLAVIERS #####
+##### oEMENTS CLAVIERS #####
 
 def deplacement(lab,carte,dir,depart,pos,arrivee,pas):
     
@@ -390,70 +393,65 @@ def deplacementAlgo(action,lab,carte,dir,depart,pos,arrivee,pas):
     # Avancer
     if(action == 'avancer'):
         match dir:
-
             # DROITE
             case'→':
                 if(lab[y][x+2] == murV):
                     print("Mur rencontré")
                     sleep(pause)
+                elif(not(carte[y][x+4] == "A" or carte[y][x+4] == "D" or carte[y][x+4] == " ")):    
+                    print("Robot rencontré")
+                    sleep(pause)
                 else:
-                    if(lab[y][x+4] == " " or lab[y][x+4] == "A" or lab[y][x+4] == "D"):
-                        carte[y][x] = " "
-                        x+=4
-                        pos[1]+=1
-                        carte[y][x] = dir
-                        pas+=1
-                    else:
-                        print("Robot droit devant!")
-                        sleep(pause)
-            
+                    carte[y][x] = " "
+                    x+=4
+                    pos[1]+=1
+                    carte[y][x] = dir
+                    pas+=1
+                
             # GAUCHE
             case '←':
                 if(lab[y][x-2] == murV):
                     print("Mur rencontré")
                     sleep(pause)
+                elif(not(carte[y][x-4] == "A" or carte[y][x-4] == "D" or carte[y][x-4] == " ")):
+                    print("Robot rencontré")
+                    sleep(pause)
                 else:
-                    if(lab[y][x-4] == " " or lab[y][x-4] == "A" or lab[y][x-4] == "D"):
-                        carte[y][x] = " "
-                        x-=4
-                        pos[1]-=1
-                        carte[y][x] = dir
-                        pas+=1
-                    else:
-                        print("Robot droit devant!")
-                        sleep(pause)
+                    carte[y][x] = " "
+                    x-=4
+                    pos[1]-=1
+                    carte[y][x] = dir
+                    pas+=1
 
             # HAUT
             case '↑':
                 if(lab[y-1][x] == murH):
                     print("Mur rencontré")
                     sleep(pause)
+                elif(not(carte[y-2][x] == "A" or carte[y-2][x] == "D" or carte[y-2][x] == " ")):
+                    print("Robot rencontré")
+                    sleep(pause)
                 else:
-                    if(lab[y-2][x] == " " or lab[y-2][x] == "A" or lab[y-2][x] == "D"):
-                        carte[y][x] = " "
-                        y-=2
-                        pos[0]-=1
-                        carte[y][x] = dir
-                        pas+=1
-                    else:
-                        print("Robot droit devant!")
-                        sleep(pause)
+                    carte[y][x] = " "
+                    y-=2
+                    pos[0]-=1
+                    carte[y][x] = dir
+                    pas+=1
 
             # BAS
             case '↓':
                 if(lab[y+1][x] == murH):
                     print("Mur rencontré")
                     sleep(pause)
+                elif(not(carte[y+2][x] == "A" or carte[y+2][x] == "D" or carte[y+2][x] == " ")):
+                    print("Robot rencontré")
+                    sleep(pause)
                 else:
-                    if(lab[y+2][x] == " " or lab[y+2][x] == "A" or lab[y+2][x] == "D"):
-                        carte[y][x] = " "
-                        y+=2
-                        pos[0]+=1
-                        carte[y][x] = dir
-                        pas+=1
-                    else:
-                        print("Robot droit devant!")
-                        sleep(pause)
+                    carte[y][x] = " "
+                    y+=2
+                    pos[0]+=1
+                    carte[y][x] = dir
+                    pas+=1
         
     # On efface, réaffiche les commandes, cartographie et affiche la carte
     
